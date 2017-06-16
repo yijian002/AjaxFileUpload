@@ -1,4 +1,4 @@
-# AjaxFileUpload #
+# jquery.ajaxFileUpload
 
 This is a fork version.
 
