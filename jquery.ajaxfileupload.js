@@ -1,5 +1,5 @@
-(function(jQuery) {
-    jQuery.extend({
+(function($) {
+    $.extend({
         createUploadIframe: function(id, uri) {
             //create frame
             var frameId = 'jUploadFrame' + id;
@@ -51,21 +51,21 @@
 
         ajaxFileUpload: function(s) {
             // TODO introduce global settings, allowing the client to modify them for all requests, not only timeout
-            s = jQuery.extend({}, jQuery.ajaxSettings, s);
+            s = $.extend({}, $.ajaxSettings, s);
             var id = new Date().getTime()
-            var form = jQuery.createUploadForm(id, s.fileElementId);
-            if (s.data) form = jQuery.addOtherRequestsToForm(form, s.data);
-            var io = jQuery.createUploadIframe(id, s.secureuri);
+            var form = $.createUploadForm(id, s.fileElementId);
+            if (s.data) form = $.addOtherRequestsToForm(form, s.data);
+            var io = $.createUploadIframe(id, s.secureuri);
             var frameId = 'jUploadFrame' + id;
             var formId = 'jUploadForm' + id;
             // Watch for a new set of requests
-            if (s.global && !jQuery.active++) {
-                jQuery.event.trigger("ajaxStart");
+            if (s.global && !$.active++) {
+                $.event.trigger("ajaxStart");
             }
             var requestDone = false;
             // Create the request object
             var xml = {}
-            if (s.global) jQuery.event.trigger("ajaxSend", [xml, s]);
+            if (s.global) $.event.trigger("ajaxSend", [xml, s]);
             // Wait for a response to come back
             var uploadCallback = function(isTimeout) {
                     var io = document.getElementById(frameId);
@@ -79,7 +79,7 @@
                             xml.responseXML = io.contentDocument.document.XMLDocument ? io.contentDocument.document.XMLDocument : io.contentDocument.document;
                         }
                     } catch (e) {
-                        jQuery.handleError(s, xml, null, e);
+                        $.handleError(s, xml, null, e);
                     }
                     if (xml || isTimeout == "timeout") {
                         requestDone = true;
@@ -89,30 +89,30 @@
                             // Make sure that the request was successful or notmodified
                             if (status != "error") {
                                 // process the data (runs the xml through httpData regardless of callback)
-                                var data = jQuery.uploadHttpData(xml, s.dataType);
+                                var data = $.uploadHttpData(xml, s.dataType);
                                 // If a local callback was specified, fire it and pass it the data
                                 if (s.success) s.success(data, status);
 
                                 // Fire the global callback
-                                if (s.global) jQuery.event.trigger("ajaxSuccess", [xml, s]);
+                                if (s.global) $.event.trigger("ajaxSuccess", [xml, s]);
                             } else
-                                jQuery.handleError(s, xml, status);
+                                $.handleError(s, xml, status);
                         } catch (e) {
                             status = "error";
-                            jQuery.handleError(s, xml, status, e);
+                            $.handleError(s, xml, status, e);
                         }
 
                         // The request was completed
-                        if (s.global) jQuery.event.trigger("ajaxComplete", [xml, s]);
+                        if (s.global) $.event.trigger("ajaxComplete", [xml, s]);
 
                         // Handle the global AJAX counter
-                        if (s.global && !--jQuery.active)
-                            jQuery.event.trigger("ajaxStop");
+                        if (s.global && !--$.active)
+                            $.event.trigger("ajaxStop");
 
                         // Process result
                         if (s.complete) s.complete(xml, status);
 
-                        jQuery(io).unbind()
+                        $(io).unbind()
 
                         setTimeout(function() {
                             try {
@@ -120,7 +120,7 @@
                                 $(form).remove();
 
                             } catch (e) {
-                                jQuery.handleError(s, xml, null, e);
+                                $.handleError(s, xml, null, e);
                             }
 
                         }, 100)
@@ -146,7 +146,7 @@
                 $(form).submit();
 
             } catch (e) {
-                jQuery.handleError(s, xml, null, e);
+                $.handleError(s, xml, null, e);
             }
             if (window.attachEvent) {
                 document.getElementById(frameId).attachEvent('onload', uploadCallback);
@@ -161,7 +161,7 @@
             data = type == 'xml' || data ? r.responseXML : r.responseText;
 
             if (type == 'script') {
-                jQuery.globalEval(data);
+                $.globalEval(data);
             } else if (type == 'json') {
                 data = r.responseText;
                 var start = data.indexOf('>');
@@ -175,10 +175,10 @@
                 try {
                     data = JSON.parse(data);
                 } catch (e) {
-                    jQuery.handleError('Response data error.', null, null, e);
+                    $.handleError('Response data error.', null, null, e);
                 }
             } else if (type == 'html') {
-                jQuery('<div>').html(data).evalScripts();
+                $('<div>').html(data).evalScripts();
             }
 
             return data;
