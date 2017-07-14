@@ -5,23 +5,20 @@
         createUploadIframe: function(id, uri) {
             var frameId = 'jUploadFrame' + id;
 
-            if (window.ActiveXObject) {
-                var io = document.createElement('<iframe id="' + frameId + '" name="' + frameId + '" />');
+            var io = $('<iframe id="' + frameId + '" name="' + frameId + '" />');
+            if (window.ActiveXObject) {                
                 if (typeof uri === 'boolean') {
-                    io.src = 'javascript:false';
+                    io.attr({src: 'javascript:false'});
                 } else if (typeof uri === 'string') {
-                    io.src = uri;
+                    io.attr({src: uri});
                 }
-            } else {
-                var io = document.createElement('iframe');
-                io.id = frameId;
-                io.name = frameId;
             }
-            io.style.position = 'absolute';
-            io.style.top = '-9000px';
-            io.style.left = '-9000px';
 
-            document.body.appendChild(io);
+            io.css({
+                position: 'absolute',
+                top: '-9000px',
+                left: '-9000px'
+            }).appendTo('body');
 
             return io;
         },
