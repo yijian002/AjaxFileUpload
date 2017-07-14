@@ -4,6 +4,7 @@ This is a fork version.
 
 ### Examples
 
+```
 $.ajaxFileUpload({
     url: '/',
     secureuri: false,
@@ -12,3 +13,4 @@ $.ajaxFileUpload({
     success: function(response, status) {
     }
 });
+```
