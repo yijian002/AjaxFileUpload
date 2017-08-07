@@ -24,14 +24,15 @@
         },
         createUploadForm: function(id, fileElementId) {
             var formId = 'jUploadForm' + id;
-            // var fileId = 'jUploadFile' + id;
+            var fileId = 'jUploadFile' + id;
             var form = $('<form  action="" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data"></form>');
             var oldElement = $('#' + fileElementId);
-            var newElement = $(oldElement).clone();
+            var old_parent = oldElement.parent();
+            var newElement = oldElement.clone(true);
 
-            // $(oldElement).attr('id', fileId).before(newElement).appendTo(form);
-            $(newElement).appendTo(form);
-            $(form).css({ position: 'absolute', top: -9999, left: -9999 }).appendTo('body');
+            newElement.appendTo(old_parent);
+            oldElement.attr('id', fileId).appendTo(form);
+            form.css({ position: 'absolute', top: -9999, left: -9999 }).appendTo('body');
 
             return form;
         },
